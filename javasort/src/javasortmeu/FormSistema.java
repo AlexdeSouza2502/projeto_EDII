@@ -12,9 +12,18 @@ public class FormSistema extends javax.swing.JFrame {
     Comparator<Dados> compareHp = 
             (Dados a1, Dados a2) ->
                     a1.getHp()- a2.getHp();
-    Comparator<Dados> compareName = 
+    Comparator<Dados> compareNumber = 
             (Dados a1, Dados a2) ->
-                    a1.getNumber().compareTo(a2.getNumber());
+                    a1.getNumber()- a2.getNumber();
+    Comparator<Dados> compareTypeOne = 
+            (Dados a1, Dados a2) ->
+                    a1.getAttack()- a2.getAttack();
+    Comparator<Dados> compareTypeTwo = 
+            (Dados a1, Dados a2) ->
+                    a1.getAttack()- a2.getAttack();
+    
+   
+                    
     /*
     Comparator<Dados> comparePrioridade = 
             (Dados a1, Dados a2) ->
@@ -234,7 +243,7 @@ public class FormSistema extends javax.swing.JFrame {
             while ((line = br.readLine()) != null) {
                 Dados tempo = new Dados();
                 leitura = line.split(",");
-                tempo.setNumber(leitura[0]);
+                tempo.setNumber(Integer.parseInt(leitura[0]));
                 tempo.setName(leitura[1]);
                 tempo.setTypeOne(leitura[2]);
                 tempo.setTypeTwo(leitura[3]);
@@ -242,7 +251,7 @@ public class FormSistema extends javax.swing.JFrame {
                 tempo.setHp(Integer.parseInt(leitura[5]));
                 tempo.setAttack(Integer.parseInt(leitura[6]));
                 tempo.setDefense(Integer.parseInt(leitura[7]));
-                tempo.setVentoDirecao(leitura[8]);
+                tempo.setSp(leitura[8]);
                 /*System.out.println(leitura[0]+"\n");
                 System.out.println(leitura[1]+"\n");
                 System.out.println(leitura[2]+"\n");
@@ -290,12 +299,16 @@ public class FormSistema extends javax.swing.JFrame {
     
     private void btnOrdNomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOrdNomeActionPerformed
     switch(cbOrdena.getSelectedIndex()){    
-        case 0: lista.sort(compareName);
+        case 0: lista.sort(compareNumber);
             break;
         case 1: Collections.sort(lista);
             break;
         case 2: lista.sort(compareTotal);
             break;
+        case 3: lista.sort(compareTypeOne);
+        break;
+        case 4: lista.sort(compareTypeTwo);
+        break;
         default: JOptionPane.showMessageDialog(null,"Em construção!");    
         }    
         mostra();
@@ -303,14 +316,31 @@ public class FormSistema extends javax.swing.JFrame {
 
     private void btnBuscaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscaActionPerformed
         int cont=0;
+        
         switch(cbOrdena.getSelectedIndex()){
             case 0:
+                if (opSeq.isSelected()) {
+                    for (Dados d : lista) {
+                        cont++;//d.getNumber().equals(Integer.parseInt((txtBusca.getText())))
+                        if (d.getNumber() == Integer.parseInt(txtBusca.getText())){
+                            JOptionPane.showMessageDialog(null, "Pokemon encontrado " + cont + " comparações");
+                            break;
+                        }
+                    }
+                }// fim if Sequencial;
+                else {
+                    Dados d = new Dados();
+                    d.setNumber(Integer.parseInt(txtBusca.getText())); // alterar atributo de acordo com a seleção
+                    // definir o comparator caso não seja o padrão na chamado da busca binária
+                    int pos = Collections.binarySearch(lista, d); // int pos = Collections.binarySearch(lista,d,compareTempMax);
+                    JOptionPane.showMessageDialog(null, "Nome encontrado na, posicao " + pos);
+                }// fim else binary
             break;
             case 1:  if(opSeq.isSelected()){
                 for(Dados d: lista){
                     cont++;
                     if(d.getName().equals(txtBusca.getText())){
-                        JOptionPane.showMessageDialog(null,"Cidade encontrada "+cont+" comparações");
+                        JOptionPane.showMessageDialog(null,"Pokemon encontrado "+cont+" comparações");
                         break;
                     }
                 }
@@ -324,9 +354,59 @@ public class FormSistema extends javax.swing.JFrame {
             }// fim else binary
             break;
             case 2:
+                 if(opSeq.isSelected()){
+                for(Dados d: lista){
+                    cont++;
+                    if(d.getTypeOne().equals(txtBusca.getText())){
+                        JOptionPane.showMessageDialog(null,"Pokemon encontrado "+cont+" comparações");
+                        break;
+                    }
+                }
+            }// fim if Sequencial;
+            else{
+                Dados d = new Dados();
+                d.setTypeOne(txtBusca.getText()); // alterar atributo de acordo com a seleção
+                // definir o comparator caso não seja o padrão na chamado da busca binária
+                int pos = Collections.binarySearch(lista,d); // int pos = Collections.binarySearch(lista,d,compareTempMax);
+                JOptionPane.showMessageDialog(null,"Nome encontrado na, posicao "+pos);
+            }// fim else binary
+                
             break;
             default: JOptionPane.showMessageDialog(null,"Em construção!");
-        }// switch
+            case 3: 
+            if(opSeq.isSelected()){
+                for(Dados d: lista){
+                    cont++;
+                    if(!d.getTypeTwo().equals(txtBusca.getText())){
+                    } else {
+                        JOptionPane.showMessageDialog(null,"Pokemon encontrada "+cont+" comparações");
+                        break;
+                    }
+                }
+            }// fim if Sequencial;
+            else{
+                Dados d = new Dados();
+                d.setTypeTwo(txtBusca.getText()); // alterar atributo de acordo com a seleção
+                // definir o comparator caso não seja o padrão na chamado da busca binária
+                int pos = Collections.binarySearch(lista,d); // int pos = Collections.binarySearch(lista,d,compareTempMax);
+                JOptionPane.showMessageDialog(null,"Nome encontrado na, posicao "+pos);
+            }// fim else binary
+            break;
+            case 4:
+                if(opSeq.isSelected()){
+                for(Dados d: lista){
+                    cont++;
+                    if(!d.getSp().equals(txtBusca.getText())){
+                    } else {
+                        JOptionPane.showMessageDialog(null,"Pokemon encontrada "+cont+" comparações");
+                        break;
+                    }
+                }
+            }// fim if Sequencial;
+          
+            break;
+                
+            }// switch
     }//GEN-LAST:event_btnBuscaActionPerformed
 
     private void opSeqActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_opSeqActionPerformed

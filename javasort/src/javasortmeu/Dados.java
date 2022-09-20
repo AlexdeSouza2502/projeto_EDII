@@ -2,7 +2,7 @@
 package javasortmeu;
 //import java.lang.Comparable;
 public class Dados implements Comparable<Dados>{
-   private String number;
+   private int number;
    private String name;
    private String typeOne;
    private String typeTwo;
@@ -17,14 +17,14 @@ public class Dados implements Comparable<Dados>{
     /**
      * @return the data
      */
-    public String getNumber() {
+    public int getNumber() {
         return number;
     }
 
     /**
      * @param number the data to set
      */
-    public void setNumber(String number) {
+    public void setNumber(int number) {
         this.number = number;
     }
 
@@ -126,7 +126,7 @@ public class Dados implements Comparable<Dados>{
     }
 
 
-    public void setVentoDirecao(String sp) {
+    public void setSp(String sp) {
         this.sp = sp;
     }
     
